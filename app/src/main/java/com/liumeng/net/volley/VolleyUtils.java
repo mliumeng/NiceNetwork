@@ -23,7 +23,7 @@ public class VolleyUtils {
         responseListener.setContentType(Constant.CONTENT_TYPE_BEAUT);
         responseListener.setRequestType(Constant.REQUEST_TYPE_STRING);
         responseListener.setBeautListener(beautListener);
-        String url = NetUrl.getGanKApi("%E7%A6%8F%E5%88%A9", 20);
+        String url = NetUrl.getGanKApi("%E7%A6%8F%E5%88%A9", 50);
         StringRequest jsObjRequest = new StringRequest
                 (Request.Method.GET, url,
                         responseListener,
@@ -31,6 +31,7 @@ public class VolleyUtils {
         BaseApplication.getVolleyRequestQueue().add(jsObjRequest);
 
     }
+
 
 
 }

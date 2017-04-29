@@ -1,6 +1,7 @@
 package com.liumeng.net.app;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -16,14 +17,20 @@ import com.android.volley.toolbox.Volley;
 
 public class BaseApplication extends Application {
     public static RequestQueue requestQueue;
+    static Context context;
 
     public static RequestQueue getVolleyRequestQueue() {
         return requestQueue;
     }
 
+    public static Context getContext() {
+        return context;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this.getApplicationContext();
         requestQueue = Volley.newRequestQueue(getApplicationContext());
     }
 }

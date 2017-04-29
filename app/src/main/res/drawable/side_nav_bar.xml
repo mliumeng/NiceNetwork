@@ -1,9 +1,45 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <gradient
-        android:angle="135"
-        android:centerColor="#4CAF50"
-        android:endColor="#2E7D32"
-        android:startColor="#81C784"
-        android:type="linear" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <!-- 最底层的图片，以x，y轴坐标为中心进行旋转-->
+        <rotate
+            android:fromDegrees="-0"
+            android:pivotX="0"
+            android:pivotY="0"
+            android:toDegrees="-10">
+            <shape android:shape="rectangle">
+                <gradient
+                    android:angle="135"
+                    android:centerColor="#ffffff"
+                    android:startColor="@color/colorNavHeaderBack"
+                    android:endColor="@color/colorNavHeaderBack">
+                </gradient>
+            </shape>
+        </rotate>
+    </item>
+    <item>
+        <!-- 最底层的图片，以x，y轴坐标为中心进行旋转-->
+        <rotate
+            android:fromDegrees="-45"
+            android:pivotX="110"
+            android:pivotY="-11"
+            android:toDegrees="-10">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/colorNavHeaderCenter" />
+
+            </shape>
+        </rotate>
+    </item>
+    <item>
+        <!-- 最底层的图片，以x，y轴坐标为中心进行旋转-->
+        <rotate
+            android:fromDegrees="35"
+            android:pivotX="100"
+            android:pivotY="100"
+            android:toDegrees="-10">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/colorNavHeaderTop" />
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

@@ -59,7 +59,7 @@
         <TextView
             android:id="@+id/beaut"
             style="@style/NavTextView"
-            android:text="Android" />
+            android:text="福利" />
     </LinearLayout>
 
 </LinearLayout>
