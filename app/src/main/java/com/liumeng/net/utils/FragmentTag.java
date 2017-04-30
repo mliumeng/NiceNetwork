@@ -2,6 +2,7 @@ package com.liumeng.net.utils;
 
 
 import com.liumeng.net.app.BaseFragment;
+import com.liumeng.net.view.fragment.BeautBigFragment;
 import com.liumeng.net.view.fragment.BeautFragment;
 
 /**
@@ -14,6 +15,7 @@ public class FragmentTag {
     public static final String IOS = "IOS";
     public static final String WEB = "WEB";
     public static final String BEAUTY = "BEAUTY";
+    public static final String BEAUTY_BIG = "BEAUTY_BIG";
     public static final String TAGS = "TAGS";
 
 
@@ -27,6 +29,8 @@ public class FragmentTag {
                 break;
             case BEAUTY:
                 return new BeautFragment();
+            case BEAUTY_BIG:
+                return new BeautBigFragment();
         }
         return null;
     }

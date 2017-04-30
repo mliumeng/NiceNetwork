@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBlack"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
+    <ImageView
+        android:id="@+id/beaut_big"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorAccent"
-        android:visibility="visible" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:background="@color/colorBlack"
+        android:scaleType="centerCrop"
+        android:transitionName="@string/beautTransitionName"
+        android:visibility="visible"
+        app:srcCompat="@mipmap/bg_fuli" />
 </RelativeLayout>

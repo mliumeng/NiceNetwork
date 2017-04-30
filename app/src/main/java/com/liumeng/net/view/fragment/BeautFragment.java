@@ -1,20 +1,24 @@
 package com.liumeng.net.view.fragment;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
 import com.liumeng.net.R;
 import com.liumeng.net.adapter.BeautListAdapter;
 import com.liumeng.net.app.BaseFragment;
 import com.liumeng.net.bean.BeautBean;
+import com.liumeng.net.utils.FragmentTag;
 import com.liumeng.net.volley.VolleyUtils;
 import com.liumeng.net.volley.listener.BeautListener;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
+
+import static com.liumeng.net.constant.Constant.KEY_BEAUT_BIG;
 
 /**
  * ****************************************************
@@ -25,13 +29,12 @@ import butterknife.Unbinder;
  * *****************************************************
  */
 
-public class BeautFragment extends BaseFragment implements BeautListener, SwipeRefreshLayout.OnRefreshListener {
+public class BeautFragment extends BaseFragment implements BeautListener, SwipeRefreshLayout.OnRefreshListener, BeautListAdapter.OnItemClickListener {
 
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
     @BindView(R.id.super_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
-    Unbinder unbinder;
     private BeautListAdapter beautListAdapter;
 
     public BeautFragment() {
@@ -47,6 +50,7 @@ public class BeautFragment extends BaseFragment implements BeautListener, SwipeR
     protected void initData() {
         beautListAdapter = new BeautListAdapter();
         VolleyUtils.getBeauty(this);
+
     }
 
     @Override
@@ -58,7 +62,6 @@ public class BeautFragment extends BaseFragment implements BeautListener, SwipeR
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-//        recycleView.addItemDecoration(new MDGridRvDividerDecoration(getContext()));
     }
 
     private void initRecycle() {
@@ -81,7 +84,7 @@ public class BeautFragment extends BaseFragment implements BeautListener, SwipeR
 
     @Override
     protected void initEvent() {
-
+        if (beautListAdapter != null) beautListAdapter.setItemClickListener(this);
     }
 
 
@@ -100,5 +103,12 @@ public class BeautFragment extends BaseFragment implements BeautListener, SwipeR
     @Override
     public void onRefresh() {
         VolleyUtils.getBeauty(this);
+    }
+
+    @Override
+    public void onItemClick(View view, BeautBean beautBean) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_BEAUT_BIG, beautBean.getUrl());
+        toFragment(FragmentTag.BEAUTY_BIG, bundle, true, view);
     }
 }

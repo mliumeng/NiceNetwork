@@ -38,13 +38,21 @@ public class BeautListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolderBeaut viewHolder = (ViewHolderBeaut) holder;
         ImageLoader imageLoader = new ImageLoader(BaseApplication.getVolleyRequestQueue(), ImageCache.getInstance());
         ImageListener imageListener = imageLoader.getImageListener(viewHolder.itemImage, R.drawable.side_nav_bar, R.drawable.side_nav_bar);
         imageLoader.get(beautList.get(position).getUrl(), imageListener);
         viewHolder.itemDes.setText(beautList.get(position).getDesc());
         viewHolder.itemPublishedTime.setText(beautList.get(position).getPublishedAt());
+        viewHolder.itemImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(view, beautList.get(position));
+                }
+            }
+        });
     }
 
     @Override
@@ -75,5 +83,15 @@ public class BeautListAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
 
+    }
+
+    public OnItemClickListener itemClickListener;
+
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, BeautBean position);
     }
 }

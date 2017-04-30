@@ -20,4 +20,7 @@ public class Constant {
     public static final int CONTENT_TYPE_ANDROID = 3;
     public static final int CONTENT_TYPE_VIDEO = 4;
     public static final int CONTENT_TYPE_ARTICLE = 5;
+
+    /*bundle or intent key*/
+    public static final String KEY_BEAUT_BIG = "key_beaut_big";
 }

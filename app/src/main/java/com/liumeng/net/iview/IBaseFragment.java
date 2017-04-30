@@ -1,6 +1,7 @@
 package com.liumeng.net.iview;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.liumeng.net.app.IBaseView;
 
@@ -19,4 +20,8 @@ public interface IBaseFragment extends IBaseView {
     void toFragment(String tag);
 
     void toFragment(String tag, Bundle bundle);
+
+    void toFragment(String tag, Bundle bundle, boolean canBack);
+
+    void toFragment(String tag, Bundle bundle, boolean canBack, View view);
 }

@@ -1,13 +1,20 @@
 package com.liumeng.net.app;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.liumeng.net.MainActivity;
+import com.liumeng.net.R;
 import com.liumeng.net.iview.IBaseFragment;
+import com.liumeng.net.utils.FragmentTag;
 
 import butterknife.ButterKnife;
 
@@ -22,6 +29,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment implements IBaseFragment {
     private View view;// inflater view
+    private BaseFragment fragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +43,7 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
         initData();
         initView();
         initEvent();
+
     }
 
     /**
@@ -64,7 +73,6 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
     }
 
 
-
     @Override
     public void showToast(String s) {
 
@@ -82,12 +90,43 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
 
 
     @Override
-    public void toFragment(String tag) {
+    public void toFragment(@NonNull String tag) {
+        toFragment(tag, null, true);
+    }
 
+
+    @Override
+    public void toFragment(@NonNull String tag, @Nullable Bundle bundle) {
+        toFragment(tag, bundle, true);
     }
 
     @Override
-    public void toFragment(String tag, Bundle bundle) {
+    public void toFragment(@NonNull String tag, @Nullable Bundle bundle, boolean canBack) {
+        toFragment(tag, bundle, true, null);
+    }
 
+    @Override
+    public void toFragment(@NonNull String tag, @Nullable Bundle bundle, boolean canBack, View view) {
+
+        if (fragment != null && fragment.getTag() != null) {
+            if (fragment.getTag().equals(tag))
+                return;
+        }
+        BaseFragment from = this;
+        fragment = FragmentTag.getFragment(tag);
+        if (bundle != null) {
+            fragment.setArguments(bundle);
+        }
+//            setSelectItem(tag);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (view != null)
+            fragmentTransaction.addSharedElement(view, getString(R.string.beautTransitionName));
+        if (fragment.isAdded()) {
+            fragmentTransaction.hide(from).show(fragment);
+        } else {
+            fragmentTransaction.hide(from).add(R.id.main_frame_layout, fragment).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            if (canBack) fragmentTransaction.addToBackStack(tag);
+        }
     }
 }
