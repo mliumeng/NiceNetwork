@@ -29,9 +29,20 @@ public class VolleyUtils {
                         responseListener,
                         new ErrorListener());
         BaseApplication.getVolleyRequestQueue().add(jsObjRequest);
-
     }
 
+    public static void getAndroid(BeautListener beautListener) {
+        ResponseListener responseListener = new ResponseListener();
+        responseListener.setContentType(Constant.CONTENT_TYPE_BEAUT);
+        responseListener.setRequestType(Constant.REQUEST_TYPE_STRING);
+        responseListener.setBeautListener(beautListener);
+        String url = NetUrl.getGanKApi("%E7%A6%8F%E5%88%A9", 50);
+        StringRequest jsObjRequest = new StringRequest
+                (Request.Method.GET, url,
+                        responseListener,
+                        new ErrorListener());
+        BaseApplication.getVolleyRequestQueue().add(jsObjRequest);
+    }
 
 
 }
