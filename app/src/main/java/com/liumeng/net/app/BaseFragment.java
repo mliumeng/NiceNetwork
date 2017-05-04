@@ -1,17 +1,16 @@
 package com.liumeng.net.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liumeng.net.MainActivity;
 import com.liumeng.net.R;
 import com.liumeng.net.iview.IBaseFragment;
 import com.liumeng.net.utils.FragmentTag;
@@ -128,5 +127,13 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
             fragmentTransaction.hide(from).add(R.id.main_frame_layout, fragment).commit(); // 隐藏当前的fragment，add下一个到Activity中
             if (canBack) fragmentTransaction.addToBackStack(tag);
         }
+    }
+
+    @Override
+    public void toActivity(Class aClass, Bundle bundle) {
+        Intent intent = new Intent(getActivity(), aClass);
+        if (bundle != null)
+            intent.putExtras(bundle);
+        getActivity().startActivity(intent);
     }
 }

@@ -24,4 +24,7 @@ public interface IBaseFragment extends IBaseView {
     void toFragment(String tag, Bundle bundle, boolean canBack);
 
     void toFragment(String tag, Bundle bundle, boolean canBack, View view);
+
+    void toActivity(Class aClass, Bundle bundle);
+
 }

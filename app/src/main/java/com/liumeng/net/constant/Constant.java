@@ -23,4 +23,5 @@ public class Constant {
 
     /*bundle or intent key*/
     public static final String KEY_BEAUT_BIG = "key_beaut_big";
+    public static final String KEY_DETAIL_URL = "key_detail_url";
 }

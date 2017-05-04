@@ -7,10 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
 
 
     @BindView(R.id.toolbar)
@@ -57,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     @BindView(R.id.main_frame_layout)
     FrameLayout mainFrameLayout;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
+
     private BaseFragment fragment;
 
     @Override
@@ -71,13 +71,19 @@ public class MainActivity extends AppCompatActivity {
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
+        toolbar.setOnMenuItemClickListener(this);
         setDefaultFragment();
     }
 
     private void setDefaultFragment() {
-        startFragmentByTag(FragmentTag.BEAUTY);
+        startFragmentByTag(FragmentTag.ANDROID);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
     private void startFragmentByTag(String tag) {
         if (fragment != null) {
@@ -85,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
         }
         setSelectItem(tag);
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragment = FragmentTag.getFragment(tag);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.replace(R.id.main_frame_layout, fragment, tag);
@@ -108,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case FragmentTag.BEAUTY:
                 selectItem = 3;
-
                 break;
         }
         setSelectItem(selectItem);
@@ -136,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.item_android:
                 setSelectItem(0);
+                startFragmentByTag(FragmentTag.ANDROID);
                 break;
             case R.id.item_ios:
                 setSelectItem(1);
@@ -154,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSelectItem(int selectItem) {
         TextView[] tvItems = {android, ios, web, beaut};
-        if (selectItem > 0 && selectItem < tvItems.length)
+        if (selectItem >= 0 && selectItem < tvItems.length)
             for (TextView item : tvItems) {
                 if (item == tvItems[selectItem]) {
                     item.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -162,5 +169,11 @@ public class MainActivity extends AppCompatActivity {
                     item.setTextColor(getResources().getColor(R.color.colorBlack));
                 }
             }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+
+        return false;
     }
 }

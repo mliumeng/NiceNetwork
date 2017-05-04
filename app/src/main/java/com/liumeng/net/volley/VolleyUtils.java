@@ -4,6 +4,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.liumeng.net.app.BaseApplication;
 import com.liumeng.net.constant.Constant;
+import com.liumeng.net.volley.listener.AndroidListener;
 import com.liumeng.net.volley.listener.BeautListener;
 import com.liumeng.net.volley.listener.ErrorListener;
 import com.liumeng.net.volley.listener.ResponseListener;
@@ -31,12 +32,12 @@ public class VolleyUtils {
         BaseApplication.getVolleyRequestQueue().add(jsObjRequest);
     }
 
-    public static void getAndroid(BeautListener beautListener) {
+    public static void getAndroid(AndroidListener androidListener) {
         ResponseListener responseListener = new ResponseListener();
-        responseListener.setContentType(Constant.CONTENT_TYPE_BEAUT);
+        responseListener.setContentType(Constant.CONTENT_TYPE_ANDROID);
         responseListener.setRequestType(Constant.REQUEST_TYPE_STRING);
-        responseListener.setBeautListener(beautListener);
-        String url = NetUrl.getGanKApi("%E7%A6%8F%E5%88%A9", 50);
+        responseListener.setAndroidListener(androidListener);
+        String url = NetUrl.getGanKApi("Android", 20);
         StringRequest jsObjRequest = new StringRequest
                 (Request.Method.GET, url,
                         responseListener,

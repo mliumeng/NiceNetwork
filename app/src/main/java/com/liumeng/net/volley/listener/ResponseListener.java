@@ -2,10 +2,13 @@ package com.liumeng.net.volley.listener;
 
 import com.android.volley.Response;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.liumeng.net.bean.AndroidBean;
+import com.liumeng.net.bean.BaseBean;
 import com.liumeng.net.bean.BeautBean;
-import com.liumeng.net.bean.BeautListBean;
 import com.liumeng.net.constant.Constant;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -21,6 +24,7 @@ public class ResponseListener implements Response.Listener {
     private int requestType = 1;
     private int contentType = 1;
     private BeautListener beautListener;
+    private AndroidListener androidListener;
 
     public ResponseListener() {
     }
@@ -43,11 +47,7 @@ public class ResponseListener implements Response.Listener {
 
     @Override
     public void onResponse(Object response) {
-        switch (requestType) {
-            case Constant.REQUEST_TYPE_STRING:
-                AnalysisJSON((String) response);
-                break;
-        }
+        AnalysisJSON((String) response);
 
     }
 
@@ -61,7 +61,24 @@ public class ResponseListener implements Response.Listener {
             case Constant.CONTENT_TYPE_BEAUT:
                 setBeaut(jsonObject);
                 break;
+            case Constant.CONTENT_TYPE_ANDROID:
+                setAndroid(jsonObject);
+                break;
         }
+    }
+
+    /**
+     * 处理Android
+     *
+     * @param jsonObject json string
+     */
+    private void setAndroid(String jsonObject) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<BaseBean<AndroidBean>>() {
+        }.getType();
+        BaseBean<AndroidBean> data = gson.fromJson(jsonObject, type);
+        List<AndroidBean> results = data.getResults();
+        androidListener.androidList(results);
     }
 
     /**
@@ -71,13 +88,19 @@ public class ResponseListener implements Response.Listener {
      */
     public void setBeaut(String jsonObject) {
         Gson gson = new Gson();
-        BeautListBean beautListBean = gson.fromJson(jsonObject, BeautListBean.class);
-        List<BeautBean> results = beautListBean.getResults();
+        Type type = new TypeToken<BaseBean<BeautBean>>() {
+        }.getType();
+        BaseBean<BeautBean> data = gson.fromJson(jsonObject, type);
+        List<BeautBean> results = data.getResults();
         beautListener.beautList(results);
     }
 
 
     public void setBeautListener(BeautListener beautListener) {
         this.beautListener = beautListener;
+    }
+
+    public void setAndroidListener(AndroidListener androidListener) {
+        this.androidListener = androidListener;
     }
 }
